@@ -28,16 +28,3 @@ jobs:
           context: .
           push: true
           tags: den7ee/giropops-senhas:latest
-          
-      - name: deploying
-        uses: appleboy/ssh-action@v0.1.8
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            docker image pull den7ee/giropops-senhas:latest
-            docker container stop my-container
-            docker container rm my-container
-            docker container run -d --name my-container -p 80:5000 den7ee/giropops-senhas

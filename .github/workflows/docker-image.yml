@@ -27,7 +27,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: lucas-92/giropops-senhas:latest
+          tags: den7ee/giropops-senhas:latest
           
       - name: deploying
         uses: appleboy/ssh-action@v0.1.8
@@ -37,7 +37,7 @@ jobs:
           password: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            docker image pull lucas-92/giropops-senhas:latest
+            docker image pull den7ee/giropops-senhas:latest
             docker container stop my-container
             docker container rm my-container
-            docker container run -d --name my-container -p 80:5000 lucas-92/giropops-senhas
+            docker container run -d --name my-container -p 80:5000 den7ee/giropops-senhas

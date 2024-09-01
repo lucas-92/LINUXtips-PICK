@@ -7,7 +7,7 @@
 1. [**Containerization with Docker:**](https://github.com/lucas-92/LINUXtips-PICK/blob/main/docs/1.%20Containerization%20with%20Docker.md) 
    - Containerize the password management application.
    - Create an efficient and secure `Dockerfile`.
-   - Publish the Docker image to a private repository.
+   - Publish the Docker image to a public repository.
 
 2. **Orchestration with Kubernetes:**
    - Deploy the application on Kubernetes.
@@ -17,7 +17,7 @@
 3. **Deploy Automation with Helm:**
    - Create a Chart Helm for the application.
    - Configure dynamic values ​​for different environments (dev, staging, prod).
-   - Generate Helm packages and store in a private Helm repository.
+   - Generate Helm packages and store in a public Helm repository.
 
 4. **Security Policies with Kyverno:**
    - Create Kyverno policies to ensure security practices such as:

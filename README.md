@@ -4,7 +4,7 @@
 
 #### Project Requirements:
 
-1. **Containerization with Docker:**
+1. [**Containerization with Docker:**](https://github.com/lucas-92/LINUXtips-PICK/blob/main/docs/1.%20Containerization%20with%20Docker.md) 
    - Containerize the password management application.
    - Create an efficient and secure `Dockerfile`.
    - Publish the Docker image to a private repository.

@@ -1,0 +1,7 @@
+### Containerization with Docker
+
+- Containerize the password management application.
+git clone
+  
+- Create an efficient and secure `Dockerfile`.
+- Publish the Docker image to a public repository.

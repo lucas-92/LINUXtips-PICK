@@ -9,7 +9,7 @@
    - Create an efficient and secure `Dockerfile`.
    - Publish the Docker image to a public repository.
 
-2. **Orchestration with Kubernetes:**
+2. [**Orchestration with Kubernetes:**](https://github.com/lucas-92/LINUXtips-PICK/blob/main/docs/2.%20Orchestration%20with%20Kubernetes)
    - Deploy the application on Kubernetes.
    - Create the necessary manifests (`Deployment`, `Service`, `ConfigMap`, `Secret`, etc.).
    - Use `Ingress` to expose the application externally.

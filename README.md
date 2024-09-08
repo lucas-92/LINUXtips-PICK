@@ -9,12 +9,12 @@
    - Create an efficient and secure `Dockerfile`.
    - Publish the Docker image to a public repository.
 
-2. [**Orchestration with Kubernetes:**](https://github.com/lucas-92/LINUXtips-PICK/blob/main/docs/2.%20Orchestration%20with%20Kubernetes)
+2. [**Orchestration with Kubernetes:**](https://github.com/lucas-92/LINUXtips-PICK/blob/main/docs/2.%20Orchestration%20with%20Kubernetes.md)
    - Deploy the application on Kubernetes.
    - Create the necessary manifests (`Deployment`, `Service`, `ConfigMap`, `Secret`, etc.).
    - Use `Ingress` to expose the application externally.
 
-3. **Deploy Automation with Helm:**
+3. [**Deploy Automation with Helm:**](https://github.com/lucas-92/LINUXtips-PICK/blob/main/docs/3.%20Deploy%20Automation%20with%20Helm.md)
    - Create a Chart Helm for the application.
    - Configure dynamic values ​​for different environments (dev, staging, prod).
    - Generate Helm packages and store in a public Helm repository.

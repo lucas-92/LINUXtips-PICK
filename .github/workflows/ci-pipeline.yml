@@ -34,33 +34,33 @@ jobs:
         # Criar diretórios
         mkdir -p "${EXECDIR}" "${WEBAPPDIR}"
 
-        # Verificar se o arquivo app.py existe
-        if [ -f "app.py" ]; then
+        # Verificar se o arquivo app.py dentro de giropops-senhas existe
+        if [ -f "giropops-senhas/app.py" ]; then
             echo "#!/usr/share/webapps/giropops-senhas/venv/bin/python3" > "${EXECDIR}/giropops-senhas"
-            cat app.py >> "${EXECDIR}/giropops-senhas"
+            cat giropops-senhas/app.py >> "${EXECDIR}/giropops-senhas"
             chmod +x "${EXECDIR}/giropops-senhas"
         else
-            echo "Erro: arquivo app.py não encontrado!"
+            echo "Erro: arquivo giropops-senhas/app.py não encontrado!"
             exit 1
         fi
 
         # Criar ambiente virtual
         virtualenv "${WEBAPPDIR}/venv"
 
-        # Verificar se os diretórios templates/ e static/ existem
-        if [ -d "templates/" ] && [ -d "static/" ]; then
-            cp -r templates/ static/ "${WEBAPPDIR}/"
+        # Verificar se os diretórios templates/ e static/ dentro de giropops-senhas existem
+        if [ -d "giropops-senhas/templates/" ] && [ -d "giropops-senhas/static/" ]; then
+            cp -r giropops-senhas/templates/ giropops-senhas/static/ "${WEBAPPDIR}/"
         else
             echo "Erro: diretórios templates/ ou static/ não encontrados!"
             exit 1
         fi
 
         # Ativar o ambiente virtual e instalar dependências
-        if [ -f "requirements.txt" ]; then
+        if [ -f "giropops-senhas/requirements.txt" ]; then
             source "${WEBAPPDIR}/venv/bin/activate"
-            pip install -r requirements.txt
+            pip install -r giropops-senhas/requirements.txt
         else
-            echo "Erro: arquivo requirements.txt não encontrado!"
+            echo "Erro: arquivo giropops-senhas/requirements.txt não encontrado!"
             exit 1
         fi
 

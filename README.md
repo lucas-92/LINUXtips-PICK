@@ -35,7 +35,7 @@
    - Configure Prometheus to collect and visualize these metrics.
    - Create alerts based on application-specific metrics.
 
-7. **Package Distribution with APKO and Melange:**
+7. [**Package Distribution with APKO and Melange:**](https://github.com/lucas-92/LINUXtips-PICK/blob/main/docs/7.%20Package%20Distribution%20with%20APKO%20and%20Melange.md)
    - Use Melange to create application packages.
    - Configure a CI/CD pipeline to build and distribute these packages.
    - Ensure packages are available for different environments (dev, staging, prod)

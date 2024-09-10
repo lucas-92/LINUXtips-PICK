@@ -1,0 +1,69 @@
+name: Build Giropops Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install virtualenv
+      run: |
+        python -m pip install --upgrade pip
+        pip install virtualenv
+
+    - name: Create directories and build the pipeline
+      run: |
+        EXECDIR="${GITHUB_WORKSPACE}/usr/bin"
+        WEBAPPDIR="${GITHUB_WORKSPACE}/usr/share/webapps/giropops-senhas"
+
+        # Criar diretórios
+        mkdir -p "${EXECDIR}" "${WEBAPPDIR}"
+
+        # Verificar se o arquivo app.py existe
+        if [ -f "app.py" ]; then
+            echo "#!/usr/share/webapps/giropops-senhas/venv/bin/python3" > "${EXECDIR}/giropops-senhas"
+            cat app.py >> "${EXECDIR}/giropops-senhas"
+            chmod +x "${EXECDIR}/giropops-senhas"
+        else
+            echo "Erro: arquivo app.py não encontrado!"
+            exit 1
+        fi
+
+        # Criar ambiente virtual
+        virtualenv "${WEBAPPDIR}/venv"
+
+        # Verificar se os diretórios templates/ e static/ existem
+        if [ -d "templates/" ] && [ -d "static/" ]; then
+            cp -r templates/ static/ "${WEBAPPDIR}/"
+        else
+            echo "Erro: diretórios templates/ ou static/ não encontrados!"
+            exit 1
+        fi
+
+        # Ativar o ambiente virtual e instalar dependências
+        if [ -f "requirements.txt" ]; then
+            source "${WEBAPPDIR}/venv/bin/activate"
+            pip install -r requirements.txt
+        else
+            echo "Erro: arquivo requirements.txt não encontrado!"
+            exit 1
+        fi
+
+    - name: Test giropops-senhas script
+      run: |
+        ${GITHUB_WORKSPACE}/usr/bin/giropops-senhas

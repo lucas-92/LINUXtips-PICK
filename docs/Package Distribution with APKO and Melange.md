@@ -1,0 +1,103 @@
+Create the melange.yaml file:
+```
+echo "package:
+  name: giropops-senhas
+  version: 0.1
+  description: Password Generator by LinuxTips
+  dependencies:
+    runtime:
+      - python3
+
+environment:
+  contents:
+    keyring:
+      - ./melange.rsa.pub
+    repositories:
+      - https://dl-cdn.alpinelinux.org/alpine/edge/main
+      - https://dl-cdn.alpinelinux.org/alpine/edge/community
+    packages:
+      - alpine-baselayout-data
+      - ca-certificates-bundle
+      - busybox
+      - gcc
+      - musl-dev
+      - python3
+      - python3-dev
+      - py3-pip
+      - py3-virtualenv
+pipeline:
+  - name: Build Python application
+    runs: |  
+      EXECDIR="${{targets.destdir}}/usr/bin"
+      WEBAPPDIR="${{targets.destdir}}/usr/share/webapps/giropops-senhas"
+      mkdir -p "${EXECDIR}" "${WEBAPPDIR}"
+      if [ -f "app.py" ]; then
+          echo "#!/usr/share/webapps/giropops-senhas/venv/bin/python3" > "${EXECDIR}/giropops-senhas"
+          cat app.py >> "${EXECDIR}/giropops-senhas"
+          chmod +x "${EXECDIR}/giropops-senhas"
+      else
+          echo "Erro: arquivo app.py não encontrado!"
+          exit 1
+      fi
+      if command -v virtualenv >/dev/null 2>&1; then
+          virtualenv "${WEBAPPDIR}/venv"
+      else
+          echo "Erro: virtualenv não está instalado!"
+          exit 1
+      fi
+      if [ -d "templates/" ] && [ -d "static/" ]; then
+          cp -r templates/ static/ "${WEBAPPDIR}/"
+      else
+          echo "Erro: diretórios templates/ ou static/ não encontrados!"
+          exit 1
+      fi
+      if [ -f "requirements.txt" ]; then
+          sh -c "source '${WEBAPPDIR}/venv/bin/activate' && pip install -r requirements.txt"
+      else
+          echo "Erro: arquivo requirements.txt não encontrado!"
+          exit 1
+      fi" > melange.yaml
+```
+Create the apko.yaml file:
+```
+echo: "contents:
+  repositories:
+    - https://dl-cdn.alpinelinux.org/alpine/edge/main
+    - /work/packages
+  packages:
+    - alpine-baselayout
+    - giropops-senhas
+    - curl
+accounts:
+  groups:
+    - groupname: nonroot
+      gid: 65532
+  users:
+    - username: nonroot
+      uid: 65532
+      gid: 65532
+  run-as: 65532
+environment: 
+  FLASK_APP: "/usr/bin/giropops-senhas"
+entrypoint:
+  command: /usr/bin/giropops-senhas" > apko.yaml
+```
+
+Generate the keys:
+```
+docker run --rm -v "${PWD}":/work cgr.dev/chainguard/melange keygen
+```
+
+Create the package: 
+```
+docker run --rm --privileged -v "${PWD}":/work -w /work cgr.dev/chainguard/melange build melange.yaml --arch host --signing-key melange.rsa
+```
+
+Generate de .tar file:
+```
+docker run --rm -v "$PWD":/work -w /work cgr.dev/chainguard/apko build apko.yaml distroless-melange distroless-melange.tar -k melange.rsa.pub --arch host
+```
+Load the image:
+```
+docker load < distroless-melange.tar
+```

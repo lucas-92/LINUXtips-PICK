@@ -36,7 +36,7 @@ jobs:
 
         # Verificar se o arquivo app.py dentro de giropops-senhas existe
         if [ -f "giropops-senhas/app.py" ]; then
-            echo "#!/usr/share/webapps/giropops-senhas/venv/bin/python3" > "${EXECDIR}/giropops-senhas"
+            echo "#!/usr/bin/env python3" > "${EXECDIR}/giropops-senhas"
             cat giropops-senhas/app.py >> "${EXECDIR}/giropops-senhas"
             chmod +x "${EXECDIR}/giropops-senhas"
         else
@@ -66,4 +66,5 @@ jobs:
 
     - name: Test giropops-senhas script
       run: |
+        source ${GITHUB_WORKSPACE}/usr/share/webapps/giropops-senhas/venv/bin/activate
         ${GITHUB_WORKSPACE}/usr/bin/giropops-senhas

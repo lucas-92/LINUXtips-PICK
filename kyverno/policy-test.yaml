@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
-metadata: 
-  labels: 
+metadata:
+  labels:
     run: nginx
   name: nginx
-spec: 
-  containers: 
+spec:
+  containers:
   - image: nginx
     name: nginx
-dnsPolicy: ClusterFirst
-restartPolicy: Always
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always

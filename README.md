@@ -19,7 +19,7 @@
    - Configure dynamic values ​​for different environments (dev, staging, prod).
    - Generate Helm packages and store in a public Helm repository.
 
-4. **Security Policies with Kyverno:**
+4. [**Security Policies with Kyverno:**](https://github.com/lucas-92/LINUXtips-PICK/blob/main/docs/4.%20Security%20Policies%20with%20Kyverno.md)
    - Create Kyverno policies to ensure security practices such as:
      - Verification of signed images.
      - Prohibition of running as root.

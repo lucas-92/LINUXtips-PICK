@@ -30,7 +30,7 @@
    - Sign Docker images using Cosign.
    - Configure automatic signature verification in Kubernetes using Kyverno policies.
 
-6. **Monitoring with Prometheus:**
+6. [**Monitoring with Prometheus:**](https://github.com/lucas-92/LINUXtips-PICK/blob/main/docs/6.%20Monitoring%20with%20Prometheus.md)
    - Implement customized metrics in the application.
    - Configure Prometheus to collect and visualize these metrics.
    - Create alerts based on application-specific metrics.

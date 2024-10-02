@@ -1,0 +1,68 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Docker
+        run:|
+          sudo apt-get update
+          sudo apt-get install -y \
+            ca-certificates \
+            curl \
+            gnupg \
+            lsb-release
+            
+          sudo mkdir -p /etc/apt/keyrings
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+          
+          echo \
+            "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+            $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+          
+          sudo apt-get update
+          sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    
+    - name: Using the multiarch/qemu-user-static image
+      run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+    
+    - name: Downloading the melange Image
+      run: docker pull cgr.dev/chainguard/melange:latest
+    
+    - name: Check that you’re able to run melange with docker run
+      run: docker run --rm cgr.dev/chainguard/melange version
+    
+    - name: Enter in the app folder after git clone
+      run: cd giropops-senhas
+    
+    - name: Download the melange.yaml
+      run: wget https://raw.githubusercontent.com/lucas-92/LINUXtips-PICK/refs/heads/main/giropops-senhas/melange.yaml
+    
+    - name: Download the apko.yaml
+      run: wget https://raw.githubusercontent.com/lucas-92/LINUXtips-PICK/refs/heads/main/giropops-senhas/apko.yaml
+    
+    - name: Generate the keys
+      run: docker run --rm -v "${PWD}":/work cgr.dev/chainguard/melange keygen
+    
+    - name: Create the package
+      run: docker run --rm --privileged -v "${PWD}":/work -w /work cgr.dev/chainguard/melange build melange.yaml --arch host --signing-key melange.rsa
+    
+    - name: Generate de .tar file
+      run: docker run --rm -v "$PWD":/work -w /work cgr.dev/chainguard/apko build apko.yaml distroless-melange distroless-melange.tar -k melange.rsa.pub --arch host
+    
+    - name: Load the image
+      run: docker load < distroless-melange.tar
+
+    - name: Run the image
+      run: docker run -p 5000:5000 distroless-melange:latest-amd64

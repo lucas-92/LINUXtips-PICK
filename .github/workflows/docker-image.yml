@@ -17,8 +17,11 @@ jobs:
         uses: actions/checkout@v4
     
       - name: Access Directory
-        run: cd ${GITHUB_WORKSPACE}/giropops-senhas
-          
+        run: |
+          ls -lha
+          cd ${GITHUB_WORKSPACE}/giropops-senhas/
+          ls -lha
+            
       - name: Generate the keys
         run: |
           ls -lha

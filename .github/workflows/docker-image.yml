@@ -46,7 +46,9 @@ jobs:
     
       - name: Enter in the app folder after git clone
         working-directory: giropops-senhas
-        run: pwd #
+        run: |
+          pwd #
+          ls
     
       - name: Download the melange.yaml
         run: wget https://raw.githubusercontent.com/lucas-92/LINUXtips-PICK/main/giropops-senhas/melange.yaml

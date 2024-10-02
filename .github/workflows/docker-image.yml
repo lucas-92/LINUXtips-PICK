@@ -20,7 +20,9 @@ jobs:
         run: cd ${GITHUB_WORKSPACE}/giropops-senhas
           
       - name: Generate the keys
-        run: docker run --rm -v "${{ github.workspace }}":/work cgr.dev/chainguard/melange keygen
+        run: |
+          ls -lha
+          docker run --rm -v "${PWD}":/work cgr.dev/chainguard/melange keygen
     
       - name: Create the package
         run: docker run --rm --privileged -v "${PWD}":/work -w /work cgr.dev/chainguard/melange build melange.yaml --arch host --signing-key melange.rsa

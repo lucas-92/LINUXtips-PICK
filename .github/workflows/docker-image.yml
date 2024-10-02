@@ -16,8 +16,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
     
-      - name: Copy Files
-        run: cp ${GITHUB_WORKSPACE}/giropops-senhas/melange.yaml ${GITHUB_WORKSPACE}/giropops-senhas/apko.yaml .
+      - name: Access Directory
+        run: cd ${GITHUB_WORKSPACE}/giropops-senhas
           
       - name: Generate the keys
         run: docker run --rm -v "${{ github.workspace }}":/work cgr.dev/chainguard/melange keygen

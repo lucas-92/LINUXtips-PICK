@@ -34,7 +34,7 @@ jobs:
         run: docker run --rm -v "$PWD/giropops-senhas/":/work -w /work cgr.dev/chainguard/apko build apko.yaml distroless-melange distroless-melange.tar -k melange.rsa.pub --arch host
     
       - name: Load the image
-        run: docker load < distroless-melange.tar
+        run: docker load < $PWD/giropops-senhas/distroless-melange.tar
 
       - name: Run the image
         run: docker run -p 5000:5000 distroless-melange:latest-amd64

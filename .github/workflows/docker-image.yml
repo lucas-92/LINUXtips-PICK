@@ -61,9 +61,8 @@ jobs:
     
       - name: Create the package
         run: |
-          echo "$PWD"
+          ls /home/runner/work/LINUXtips-PICK/LINUXtips-PICK
           docker run --rm --privileged -v "${{ github.workspace }}":/work -w /work cgr.dev/chainguard/melange build melange.yaml --arch host --signing-key melange.rsa
-          ls -la /work
 
       - name: Generate the .tar file
         run: docker run --rm -v "${{ github.workspace }}":/work -w /work cgr.dev/chainguard/apko build apko.yaml distroless-melange distroless-melange.tar -k melange.rsa.pub --arch host

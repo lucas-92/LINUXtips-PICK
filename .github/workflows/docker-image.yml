@@ -37,3 +37,13 @@ jobs:
         run: |
           docker load < $PWD/giropops-senhas/distroless-melange.tar
           ls -lha
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+  
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdi
+  
+      - name: Push the Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/distroless-melange:latest-amd64
+

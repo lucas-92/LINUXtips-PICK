@@ -38,14 +38,16 @@ jobs:
           cd ${GITHUB_WORKSPACE}/giropops-senhas/
           docker load < distroless-melange.tar
           docker images
-        
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+          
+      - name: Tag Docker image
+        run: |
+          cd ${GITHUB_WORKSPACE}/giropops-senhas/
+          docker tag distroless-melange:latest ${{ secrets.DOCKER_USERNAME }}/distroless-melange:latest
   
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
   
-      - name: Push the Docker image
+      - name: Push Docker image
         run: |
           cd ${GITHUB_WORKSPACE}/giropops-senhas/
-          docker push ${{ secrets.DOCKER_USERNAME }}/distroless-melange
+          docker push ${{ secrets.DOCKER_USERNAME }}/distroless-melange:latest

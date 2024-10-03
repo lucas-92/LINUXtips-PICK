@@ -35,7 +35,8 @@ jobs:
     
       - name: Load the image
         run: |
-          docker load -i "$PWD/giropops-senhas/distroless-melange.tar"
+          cd ${GITHUB_WORKSPACE}/giropops-senhas/
+          docker load -i distroless-melange.tar
           ls -lha
       
       - name: Tag Docker image

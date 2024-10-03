@@ -39,7 +39,7 @@ jobs:
           ls -lha
       
       - name: Tag Docker image
-        run: docker tag distroless-melange:latest ${{ secrets.DOCKER_USERNAME }}/distroless-melange:latest-amd64
+        run: docker tag $PWD/giropops-senhas/distroless-melange:latest ${{ secrets.DOCKER_USERNAME }}/distroless-melange:latest-amd64
   
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2

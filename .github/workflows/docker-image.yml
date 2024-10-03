@@ -48,4 +48,4 @@ jobs:
       - name: Push the Docker image
         run: |
           cd ${GITHUB_WORKSPACE}/giropops-senhas/
-          docker push ${{ secrets.DOCKER_USERNAME }}distroless-melange:latest-amd64
+          docker push ${{ secrets.DOCKER_USERNAME }}/distroless-melange
